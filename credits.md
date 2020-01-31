@@ -7,7 +7,7 @@
 
 ## Contributors
 * [Holger Segnitz](https://www.segnitz.net/): Lead Developer of Application and PHP
-  Plugin</li>
+  Plugin
 
 
 ## OpenSource Credits
