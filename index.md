@@ -5,16 +5,22 @@ layout: default
 
 ## Introduction
 
-SOARCE is a combination of a web application and a composer package that aims to bring
-clarity into the fog of legacy applications that have any combination of the following flaws:
-undocumented or wrongfully documented source, no unit tests, heavy use of global and/or static
-variables, magic methods, hooks, ... and since we liked the challenge, applications that are
-split into (micro)services.
+SOARCE is a duo of a web application and a composer package that aims to bring
+clarity into the fog of legacy PHP applications that have any combination of the following flaws:
+* undocumented source - or worse, outdated documentation
+* close to no unit tests or integration tests
+* heavy use of global and/or public static variables magic methods, hooks,
+* ... and since we liked the challenge, applications that are split into (micro)services.
+
+Facing these issues, you are often left with the task of mapping out the landscape yourself. Maybe 
+you have an End2End test suite at hand, but that doesn't help much on it's own.
+
+This is where SOARCE can be of help. With minimal effort, this tool can be set up to 
 
 With SOARCE, for most cases, all you need to do is install one dev-requirement into each of your
 services or applications, make sure xdebug is available in their docker containers and then
 fire up and config the main SOARCE application. Our goal was to make this as minimal invasive
-as possible..
+as possible.
 
 After doing so, you will be able to run any integration or end-to-end test suite and have SOARCE
 automatically gather and analyse a lot of helpful information in real time in the background: 
@@ -48,7 +54,7 @@ subsequent calls within the topmost/main one.
 * Composer
 
 ### Plugin / Client
-* PHP >= 5.3.9
-* xdebug
-* a linux vm or docker container for the application
-* composer autoloader for the automatic mode to work
+* PHP >= 7.2
+* xdebug 3.1
+* a linux vm or docker container for your application(s)/service(s)
+* composer autoloader if you want everything to work automatically
