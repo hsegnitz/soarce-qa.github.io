@@ -9,13 +9,16 @@ SOARCE is a duo of a web application and a composer package that aims to bring
 clarity into the fog of legacy PHP applications that have any combination of the following flaws:
 * undocumented source - or worse, outdated documentation
 * close to no unit tests or integration tests
-* heavy use of global and/or public static variables magic methods, hooks,
+* heavy use of global and/or public static variables, magic methods, hooks, dynamic variables
 * ... and since we liked the challenge, applications that are split into (micro)services.
 
-Facing these issues, you are often left with the task of mapping out the landscape yourself. Maybe 
-you have an End2End test suite at hand, but that doesn't help much on it's own.
+Facing these issues, you are often left with the task of mapping out the landscape yourself, debug
+with die() or log statements. Maybe you have an End2End test suite at hand, but that doesn't help
+much on its own.
 
-This is where SOARCE can be of help. With minimal effort, this tool can be set up to 
+This is where SOARCE can be of help. It doesn't just show the end result of the coverage, it allows you to explore
+and drill down. To search inside. It also answers the question "I've changed this function, what tests do I need
+to re-run?"
 
 With SOARCE, for most cases, all you need to do is install one dev-requirement into each of your
 services or applications, make sure xdebug is available in their docker containers and then
@@ -36,6 +39,8 @@ or the whole test suite.
 functions you will also be able to see callers and callees for each function and the frequency.
 * SOARCE is also able to not only track **HTTP requests** but draw a **sequence diagram** for all
 subsequent calls within the topmost/main one.
+* The coverage can also be exported so you can combine it with the results of a phpunit run to create a
+  combined coverage report.
 
 ## Screenshots
 
@@ -54,7 +59,7 @@ subsequent calls within the topmost/main one.
 * Composer
 
 ### Plugin / Client
-* PHP >= 7.2
+* PHP >= 7.3
 * xdebug 3.1
 * a linux vm or docker container for your application(s)/service(s)
 * composer autoloader if you want everything to work automatically

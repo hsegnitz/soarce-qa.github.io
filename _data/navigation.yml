@@ -7,5 +7,7 @@ main:
       url: application.html
     - title: Plugin
       url: plugin.html
+    - title: API
+      url: api.html
     - title: Credits
       url: credits.html

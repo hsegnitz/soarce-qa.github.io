@@ -6,8 +6,7 @@
   * [Packagist](https://packagist.org/packages/soarce/)
 
 ## Contributors
-* [Holger Segnitz](https://www.segnitz.net/): Lead Developer of Application and PHP
-  Plugin
+* [Holger Segnitz](https://www.segnitz.net/): Lead Developer of Application and PHP Plugin
 
 
 ## OpenSource Credits

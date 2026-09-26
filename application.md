@@ -1,12 +1,13 @@
 # Application
 ## Introduction
 
-The application needs to be configured in two ways. You have to tell it where to find all services
-it needs to remote control and a few settings for said remote control and - in case the services
-to be tested are also run via docker-compose - you need to make each docker-compose aware of the
-other network(s).
+The application needs to be configured in two ways:
+* You have to tell it where to find all services it needs to remote control and a few settings for
+  said remote control and
+* you need to make sure the applications can see each other. Docker (compose) networks need to allow
+  access to each other
 
-Apart from this, you can play around with php, redis, MySQL settings to finetune your
+Apart from this, you can play around with PHP, Redis, MySQL settings to finetune your
 experience - this will not be part of this manual, at least yet.
                    
 
@@ -17,12 +18,9 @@ experience - this will not be part of this manual, at least yet.
 The SOARCE main application needs to be able to send http requests to the applications and services
 under test. If they are orchestrated by docker-compose in a closed network, you will have to make
 it known to SOARCE's docker-compose. This can be achieved by copying/renaming the file
-`docker-compose.override.yml.dist` to `docker-compose.override.yml` and changing/adding the
-network name(s). It could look like this:
+`docker-compose.override.yml.dist` to `docker-compose.override.yml` and adding a bridge network :
 
 ```yaml
-version: '3.3'
-
 services:
   app-soarce:
     networks:

@@ -5,12 +5,12 @@ There are different scenarios for which this software offers a purpose. We aim t
 fellow software developers, software engineers and software testers in every-day situations.
 Keeping track of code execution across service borders is a bit more difficult. Also, when
 encountering undocumented or "grown" code obfuscated by singletons, global variables and too
-many public static methods, it is hard to detect what code is still in use and when it is
-actually being used.
+many public static methods, it is hard to detect what code is still in use and when and where
+it is actually being used.
 
-Using SOARCE in combination with either manual tests or even better an exhaustive Selenium,
-Codeception or Katalon Test-Suite, you will be able to gather code coverage and a list of
-involved classes and functions per use case per service. This allows for reverse search as
+Using SOARCE in combination with either manual tests or even better an exhaustive End2End
+Test-Suite, you will be able to gather code coverage and a list of involved classes and
+functions per use case per service. This allows for reverse search as
 well, to answer questions like "If I change this function, what feature do I need to test?".
 It can also be used to see what services are involved and what code inside them is executed
 for a singular page load of the main application.
@@ -37,7 +37,7 @@ tell it what the current use case is. An example selenium test for a login:
 * request to SOARCE: start collecting
   * SOARCE forwards this command to all registered applications and services and returns
     only when all confirm success
-* request to SOARCE: activate usecase "login"
+* request to SOARCE: create or activate usecase "login"
 * request to Application: load index page
   * Fill username and password
   * Send form
@@ -56,26 +56,27 @@ tell it what the current use case is. An example selenium test for a login:
 
 The application has a list of all services involved (see configuration). If you work
 with docker-compose, both the SOARCE application and the applications and services to
-be tested will have to have access to their respective networks.
+be tested will have to have access to their respective networks - a shared bridged
+network usually does the trick.
 
-Within the application there is set of Command and Control features that tell all the
-linked services to start or stop collecting coverage and trace data. Furthermore the
+Within the application there is a set of Command and Control features that tell all the
+linked services to start or stop collecting coverage and trace data. Furthermore, the
 application will know which use case is set to be active and treat all incoming coverage
 or trace data as linked to said use case.
 
 
 #### The Client / Plugin
 
-We tried to develop this part as minimal invasive as possible. Currently the only thing
-you will need inside your service containers will be xdebug. The client - including it's
-dependencies - will be simply installed as composer packages, configured with a few
-lines of JSON and will then handle everything automatically by intercepting calls to the
-actual application and thus either execute certain tasks or run the coverage and tracing
-automatically.
+We tried to develop this part as minimal invasive as possible. Currently, the only thing
+you will need inside your service containers will be xdebug. The client - including its
+dependencies - will be simply installed as composer packages. Configuration is a few
+lines of JSON; apart from that, the plugin will then handle everything automatically by
+intercepting calls to the actual application and thus either execute certain tasks or
+run the coverage and tracing automatically.
 
 Code Coverage is sent back directly at the end of every request, trace information
 however is more complicated. As we do not want to write hundreds of megabytes per request
-to the harddrive just to read it once and then delete it again (even though SSDs might be
+to the hard drive just to read it once and then delete it again (even though SSDs might be
 fast enough (actually not really ;)), we don't want to wear them out with that), we had
 to become creative.
 
@@ -88,12 +89,21 @@ php-fpm.
 
 Redis is also used to store temporary request IDs for reverse lookup. This enables us to
 track the request sequences without the need to pass on IDs between the services by hand.
+For this the Redis container of SOARCE needs to be accessible by the services.
+
 
 #### Analysis
 
-Data is written in a relatively raw form into a relational database. Through various
-views and forms you can for example see the coverage of all tests in all applications
-but are then able to narrow it down with the use of filters.
+Raw data is received by the application container and stored in redis. A configurable
+amount of background workers process this queue and insert/update the data in the relational
+database.
+
+This Data is still stored in a quite raw form; Through various views and forms you can for
+example see the coverage of all tests in all applications but are then able to narrow it down
+with the use of filters.
+
+If you are eager to see the combined coverage from multiple test suites - e.g. a PHPUnit-run -
+you can export the coverage (in two formats - old and new) and combine it with `phpcov`.
 
 If you have an idea for another view which is not there yet, please let us know by
 creating a ticket or even create a pull-request right away.
@@ -101,8 +111,6 @@ creating a ticket or even create a pull-request right away.
 
 ## Outlook
 
-* Write data directly to redis as a buffer and only write single-threaded into database
-* Solve large auto_increment values due to insert ignore side-effects
 * Clients for different languages
 
 
